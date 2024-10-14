@@ -1,7 +1,9 @@
+import Books from "../components/Books/Books";
+
 const Home = () => {
   return (
     <div>
-      Home page
+      <Books />
     </div>
   );
 }

@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { BooksContext } from '../context/BooksContext';
 
 const useFetchBooks = (page) => {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [books, setBooks] = useContext(BooksContext);
+  // const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // console.log('In Hook', books);
 
   useEffect(() => {
     const fetchBooks = async (pageNum) => {
-      setLoading(true);
+      setIsLoading(true);
 
       // Check if the data for this page exists in localStorage
       const cachedData = localStorage.getItem(`books-page-${pageNum}`);
@@ -14,7 +18,7 @@ const useFetchBooks = (page) => {
       if (cachedData) {
         // Use data from localStorage
         setBooks(JSON.parse(cachedData));
-        setLoading(false);
+        setIsLoading(false);
       } else {
         try {
           const response = await fetch(`https://gutendex.com/books?page=${pageNum}`);
@@ -26,14 +30,14 @@ const useFetchBooks = (page) => {
         } catch (error) {
           console.error('Error fetching books:', error);
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       }
     };
 
     fetchBooks(page);
 
-    // Optionally, you could pre-fetch the next and previous pages and store them in localStorage
+    // pre-fetch the next and previous pages and store them in localStorage
     if (!localStorage.getItem(`books-page-${page + 1}`)) {
       fetchBooks(page + 1); // Pre-fetch next page
     }
@@ -43,7 +47,7 @@ const useFetchBooks = (page) => {
 
   }, [page]);
 
-  return { books, loading };
+  return { books, isLoading };
 };
 
 export default useFetchBooks;
