@@ -4,17 +4,13 @@
   box-sizing: border-box;
 }
 
+body {
+  max-width: 1200px;
+  margin: auto;
+}
+
 button {
   cursor: pointer;
-}
-
-p {
-  border-bottom: 1px solid black;
-  padding: 5px;
-}
-
-p:nth-child(even) {
-  background-color: #eee;
 }
 
 button {
@@ -38,4 +34,21 @@ button:disabled {
 
 button:hover {
   background-color: darkblue;
+}
+
+.all-books {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 3%;
+}
+.all-books > div {
+  box-shadow: 8px 12px 24px #ccc;
+  padding: 16px 5%;
+  border-radius: 12px;
+}
+.all-books h2 {
+  padding: 8px 0;
+}
+.all-books h4 {
+  padding: 8px 0 3px;
 }

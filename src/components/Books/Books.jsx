@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import useFetchBooks from '../../hooks/useFetchBooks';
 import Loading from '../Loading';
+import BookCard from './BookCard';
 
 const Books = () => {
   const [page, setPage] = useState(1);
   const { books, isLoading } = useFetchBooks(page);
 
-  console.log(books?.results);
+  // console.log(books?.results);
 
   const handlePrevious = () => {
     setPage(prev => prev - 1);
@@ -24,9 +25,16 @@ const Books = () => {
 
   if(!isLoading) {
     content = (
-      books?.results?.map(book =>
-        <p key={book.id}>{book.title}</p>
-      )
+      <div className='all-books'>
+        {
+          books?.results?.map(book =>
+            <BookCard
+              key={book.id}
+              book={book}
+            />
+          )
+        }
+      </div>
     )
   }
 
