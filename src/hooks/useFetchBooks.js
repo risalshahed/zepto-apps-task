@@ -15,7 +15,16 @@ const useFetchBooks = (page = 1) => {
     }
   };
   // wishlist
-  const [wishlist, setWishlist] = useState(getInitialWishlist);  
+  const [wishlist, setWishlist] = useState(getInitialWishlist);
+
+  // Search & Filter
+  const [searchQuery, setSearchQuery] = useState(
+    localStorage.getItem('searchQuery') || ''
+  );
+
+  const [selectedSubject, setSelectedSubject] = useState(
+    localStorage.getItem('selectedSubject') || ''
+  );
 
   useEffect(() => {
     const fetchBooks = async (pageNum) => {
@@ -58,35 +67,62 @@ const useFetchBooks = (page = 1) => {
 
   // *********** Wishlist related side effects ***********
   // Load wishlist from localStorage when the hook is initialized
-  useEffect(() => {
-    const savedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    setWishlist(savedWishlist);
-  }, []);
+  // useEffect(() => {
+  //   const savedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  //   setWishlist(savedWishlist);
+  // }, []);
 
   // Save wishlist to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // Toggle Wishlist: Add/remove books from the wishlist
-  const toggleWishlist = book => {
-    if (wishlist.some(wishlistedBook => wishlistedBook.id === book.id)) {
-      setWishlist(wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id));
-    } else {
-      setWishlist([...wishlist, book]);
-    }
-  };
-
-  // const toggleWishlist = (book) => {
-  //   const updatedWishlist = wishlist.some((b) => b.id === book.id)
-  //     ? wishlist.filter((b) => b.id !== book.id)
-  //     : [...wishlist, book];
-  //   setWishlist(updatedWishlist);
+  // Toggle Wishlist
+  // const toggleWishlist = book => {
+  //   if (wishlist.some(wishlistedBook => wishlistedBook.id === book.id)) {
+  //     setWishlist(wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id));
+  //   } else {
+  //     setWishlist([...wishlist, book]);
+  //   }
   // };
+
+  const toggleWishlist = book => {
+    const isWishlisted = wishlist.some(wishlistedBook => wishlistedBook.id === book.id);
+    const updatedWishlist = isWishlisted 
+      ? wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id) 
+      : [...wishlist, book];
+    
+    setWishlist(updatedWishlist);
+  };
 
   const isBookWishlisted = bookId => wishlist.some(book => book.id === bookId);
 
-  return { books, isLoading, wishlist, toggleWishlist, isBookWishlisted };
+  // Persist search query and subject selection in localStorage
+  useEffect(() => {
+    localStorage.setItem('searchQuery', searchQuery);
+    localStorage.setItem('selectedSubject', selectedSubject);
+  }, [searchQuery, selectedSubject]);
+
+  // Filter books based on search query and subject selection
+  const filteredBooks = books?.results?.filter(book => {
+    const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSubject = selectedSubject ? book.subjects.includes(selectedSubject) : true;
+    return matchesSearch && matchesSubject;
+  });
+
+  return {
+    books,
+    // filteredBooks: searchQuery || selectedSubject ? filteredBooks : books?.results,
+    filteredBooks,
+    isLoading,
+    wishlist,
+    searchQuery,
+    setSearchQuery,
+    selectedSubject,
+    setSelectedSubject,
+    toggleWishlist,
+    isBookWishlisted
+  };
 };
 
 export default useFetchBooks;

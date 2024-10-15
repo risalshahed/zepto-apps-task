@@ -83,3 +83,47 @@ main {
     display: block;
   }
 }
+
+/* Search & Filter styles */
+.search-filter {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0 36px;
+}
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+/* Change border color on focus */
+.search-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Styles for the select dropdown */
+.select-dropdown {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+/* Change border color on focus */
+.select-dropdown:focus {
+  border-color: #007bff;
+  outline: none;
+}
+/* Styles for the options inside the select dropdown */
+.select-dropdown option {
+  padding: 10px;
+}
