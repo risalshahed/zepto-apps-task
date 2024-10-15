@@ -5,8 +5,9 @@ const useFetchBooks = (page) => {
   const [books, setBooks] = useContext(BooksContext);
   // const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // console.log('In Hook', books);
+  // wishlist
+  const [wishlist, setWishlist] = useState([]);
+  // const [wishlist, setWishlist] = useState(JSON.parse(localStorage.getItem('wishlist')) || []);
 
   useEffect(() => {
     const fetchBooks = async (pageNum) => {
@@ -47,7 +48,32 @@ const useFetchBooks = (page) => {
 
   }, [page]);
 
-  return { books, isLoading };
+  // *********** Wishlist related side effects ***********
+  // Load wishlist from localStorage when the hook is initialized
+  useEffect(() => {
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    setWishlist(savedWishlist);
+  }, []);
+
+  // Save wishlist to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  // Toggle Wishlist: Add/remove books from the wishlist
+  const toggleWishlist = book => {
+    if (wishlist.some(wishlistedBook => wishlistedBook.id === book.id)) {
+      setWishlist(wishlist.filter((wishlistedBook) => wishlistedBook.id !== book.id));
+    } else {
+      setWishlist([...wishlist, book]);
+    }
+  };
+
+  const isBookWishlisted = bookId => {
+    return wishlist.some(book => book.id === bookId);
+  };
+
+  return { books, isLoading, wishlist, toggleWishlist, isBookWishlisted };
 };
 
 export default useFetchBooks;

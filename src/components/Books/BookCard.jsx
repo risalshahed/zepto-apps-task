@@ -1,12 +1,20 @@
-const BookCard = ({ book }) => {
-  const { title, authors, formats, translators, download_count, subjects } = book;
+import HeartIcon from "./HeartIcon";
+
+const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
+  const { id, title, authors, formats, translators, download_count, subjects } = book;
 
   return (
     <div>
       <div>
         <img src={formats['image/jpeg']} alt={title} />
       </div>
-      <h2>{title}</h2>
+      <HeartIcon
+        isWishlisted={isBookWishlisted(id)}  // Check if book is in wishlist
+        onClick={() => toggleWishlist(book)} // Toggle wishlist on click
+      />
+      <h2>
+        {title}
+      </h2>
       <p><strong>{download_count}</strong> times downloaded</p>
       <h4>
         Written by:

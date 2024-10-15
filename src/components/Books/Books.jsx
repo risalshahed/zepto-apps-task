@@ -5,7 +5,7 @@ import BookCard from './BookCard';
 
 const Books = () => {
   const [page, setPage] = useState(1);
-  const { books, isLoading } = useFetchBooks(page);
+  const { books, isLoading, toggleWishlist, isBookWishlisted } = useFetchBooks(page);
 
   // console.log(books?.results);
 
@@ -31,6 +31,8 @@ const Books = () => {
             <BookCard
               key={book.id}
               book={book}
+              toggleWishlist={toggleWishlist}
+              isBookWishlisted={isBookWishlisted}
             />
           )
         }
