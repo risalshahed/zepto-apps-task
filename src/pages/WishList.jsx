@@ -1,9 +1,21 @@
-const WishList = () => {
-  return (
-    <div>
-      Wish List page
-    </div>
-  );
-}
+import Books from "../components/Books/Books";
+import useFetchBooks from '../hooks/useFetchBooks'; // Import the custom hook
 
-export default WishList;
+const Wishlist = () => {
+  const { wishlist } = useFetchBooks(); // Get the wishlist from the hook
+
+  // console.log('In wishlist page', wishlist);
+
+  return (
+    <>
+      <h2>My Wishlist</h2>
+      {wishlist.length > 0 ? (
+        <Books filterWishlist={true} />
+      ) : (
+        <p>No books in your wishlist yet.</p>
+      )}
+    </>
+  );
+};
+
+export default Wishlist;

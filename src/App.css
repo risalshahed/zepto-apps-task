@@ -1,19 +1,12 @@
+/* Global Styles */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-
-body {
-  max-width: 1200px;
-  margin: auto;
-}
-
+/* Button Styles */
 button {
   cursor: pointer;
-}
-
-button {
   margin: 24px 32px;
   padding: 12px 24px;
   background-color: blue;
@@ -21,10 +14,36 @@ button {
   border: none;
   border-radius: 12px;
 }
-
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+button:hover {
+  background-color: darkblue;
+}
+/* Navbar Styles */
+nav {
+  background-color: #222;
+  padding: 24px;
+}
+nav ul {
+  padding: 0 6%;
+  display: flex;
+  justify-content: end;
+  gap: 0 18px;
+}
+nav li {
+  list-style-type: none;
+  color: #eee;
+  font-size: 18px;
+}
+nav a {
+  text-decoration: none;
+}
+/* Main Sections' styles */
+main {
+  max-width: 1200px;
+  margin: auto;
 }
 
 #btn-parent {
@@ -32,12 +51,9 @@ button:disabled {
   justify-content: center;
 }
 
-button:hover {
-  background-color: darkblue;
-}
-
 .all-books {
   display: grid;
+  margin: 32px 0;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px 3%;
 }

@@ -1,13 +1,21 @@
 import { useState, useEffect, useContext } from 'react';
 import { BooksContext } from '../context/BooksContext';
 
-const useFetchBooks = (page) => {
+const useFetchBooks = (page = 1) => {
   const [books, setBooks] = useContext(BooksContext);
-  // const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   // wishlist
-  const [wishlist, setWishlist] = useState([]);
-  // const [wishlist, setWishlist] = useState(JSON.parse(localStorage.getItem('wishlist')) || []);
+  // const [wishlist, setWishlist] = useState([]);
+  const getInitialWishlist = () => {
+    try {
+      return JSON.parse(localStorage.getItem('wishlist')) || [];
+    } catch (error) {
+      console.error("Error parsing wishlist from localStorage", error);
+      return [];
+    }
+  };
+  // wishlist
+  const [wishlist, setWishlist] = useState(getInitialWishlist);  
 
   useEffect(() => {
     const fetchBooks = async (pageNum) => {
@@ -46,7 +54,7 @@ const useFetchBooks = (page) => {
       fetchBooks(page - 1); // Pre-fetch previous page
     }
 
-  }, [page]);
+  }, [page, setBooks]);
 
   // *********** Wishlist related side effects ***********
   // Load wishlist from localStorage when the hook is initialized
@@ -63,15 +71,20 @@ const useFetchBooks = (page) => {
   // Toggle Wishlist: Add/remove books from the wishlist
   const toggleWishlist = book => {
     if (wishlist.some(wishlistedBook => wishlistedBook.id === book.id)) {
-      setWishlist(wishlist.filter((wishlistedBook) => wishlistedBook.id !== book.id));
+      setWishlist(wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id));
     } else {
       setWishlist([...wishlist, book]);
     }
   };
 
-  const isBookWishlisted = bookId => {
-    return wishlist.some(book => book.id === bookId);
-  };
+  // const toggleWishlist = (book) => {
+  //   const updatedWishlist = wishlist.some((b) => b.id === book.id)
+  //     ? wishlist.filter((b) => b.id !== book.id)
+  //     : [...wishlist, book];
+  //   setWishlist(updatedWishlist);
+  // };
+
+  const isBookWishlisted = bookId => wishlist.some(book => book.id === bookId);
 
   return { books, isLoading, wishlist, toggleWishlist, isBookWishlisted };
 };

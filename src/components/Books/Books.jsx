@@ -3,9 +3,9 @@ import useFetchBooks from '../../hooks/useFetchBooks';
 import Loading from '../Loading';
 import BookCard from './BookCard';
 
-const Books = () => {
+const Books = ({ filterWishlist = false }) => {
   const [page, setPage] = useState(1);
-  const { books, isLoading, toggleWishlist, isBookWishlisted } = useFetchBooks(page);
+  const { books, isLoading, wishlist, toggleWishlist, isBookWishlisted } = useFetchBooks(page);
 
   // console.log(books?.results);
 
@@ -17,6 +17,11 @@ const Books = () => {
     books.next && setPage(prev => prev + 1)
   }
 
+  // Conditionally render books based on filterWishlist prop
+  const displayedBooks = filterWishlist ? wishlist : books?.results;
+
+  // console.log('In Books Component', displayedBooks);
+
   let content;
 
   if(isLoading) {
@@ -27,7 +32,7 @@ const Books = () => {
     content = (
       <div className='all-books'>
         {
-          books?.results?.map(book =>
+          displayedBooks?.map(book =>
             <BookCard
               key={book.id}
               book={book}
@@ -42,30 +47,36 @@ const Books = () => {
 
   return (
     <>
-      <h2>Page No: {page}</h2>
-      <b>{books?.results?.length}</b>
+      { filterWishlist || <h2>Page No: {page}</h2> }
+      { filterWishlist || <b>{displayedBooks?.length}</b> }
       { content }
-      <div id='btn-parent'>
-        <button onClick={handlePrevious} disabled={page === 1}>
-          Previous
-        </button>
-        <button onClick={handleNext}>
-          Next
-        </button>
-      </div>
+      {
+        filterWishlist || (
+          <>
+            <div id='btn-parent'>
+              <button onClick={handlePrevious} disabled={page === 1}>
+                Previous
+              </button>
+              <button onClick={handleNext}>
+                Next
+              </button>
+            </div>
 
-      <div id='btn-parent'>
-        <button onClick={() => setPage(1)}>
-          First Page
-        </button>
-        <button onClick={() => setPage(
-          Math.ceil(books.count / books.results.length)
-        )}>
-          Last Page
-        </button>
-      </div>
+            <div id='btn-parent'>
+              <button onClick={() => setPage(1)}>
+                First Page
+              </button>
+              <button onClick={() => setPage(
+                Math.ceil(books.count / books.results.length)
+              )}>
+                Last Page
+              </button>
+            </div>
+            <h2>Page No: {page}</h2>
+          </>
+        )
+      }
 
-      <h2>Page No: {page}</h2>
     </>
   );
 }

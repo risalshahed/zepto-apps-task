@@ -9,10 +9,12 @@ function App() {
   return (
     <BooksProvider>
       <Navbar />
-      <Routes>
-        <Route path='/' Component={Home} />
-        <Route path='/wishlist' Component={WishList} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path='/' Component={Home} />
+          <Route path='/wishlist' Component={WishList} />
+        </Routes>
+      </main>
     </BooksProvider>
   )
 }
