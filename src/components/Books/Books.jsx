@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useFetchBooks from '../../hooks/useFetchBooks';
 import Loading from '../Loading';
 import BookCard from './BookCard';
@@ -13,19 +13,13 @@ const Books = ({ filterWishlist = false }) => {
     wishlist,
     toggleWishlist,
     isBookWishlisted,
-    // searchQuery,
-    // setSearchQuery,
-    // selectedSubject,
-    // setSelectedSubject,
+    searchQuery,
+    setSearchQuery,
+    selectedSubject,
+    setSelectedSubject,
   } = useFetchBooks(page);
 
-  // console.log(books?.results);
-
-  // Extract unique subjects from the books array
-  // const subjects = useMemo(() => {
-  //   const allSubjects = books?.results?.flatMap(book => book.subjects) || [];
-  //   return [...new Set(allSubjects)]; // Create a unique set of subjects
-  // }, [books]);
+  const [displayedBooks, setDisplayedBooks] = useState([]);
 
   const handlePrevious = () => {
     setPage(prev => prev - 1);
@@ -36,7 +30,9 @@ const Books = ({ filterWishlist = false }) => {
   }
 
   // Conditionally render books based on filterWishlist prop
-  const displayedBooks = filterWishlist ? wishlist : filteredBooks || books?.results;
+  /* const displayedBooks = filterWishlist ? wishlist : filteredBooks || books?.results;
+
+  console.log('displayedBooks', displayedBooks);
 
   // console.log('In Books Component', displayedBooks);
 
@@ -45,7 +41,22 @@ const Books = ({ filterWishlist = false }) => {
   )
   .filter(
     (value, index, self) => self.indexOf(value) === index
-  )
+  ) */
+
+  // Update displayedBooks whenever filterWishlist, filteredBooks, or books change
+  useEffect(() => {
+    if (filterWishlist) {
+      setDisplayedBooks(wishlist);
+    } else {
+      setDisplayedBooks(filteredBooks?.length > 0 ? filteredBooks :  []);
+    }
+  }, [filterWishlist, filteredBooks, books, wishlist]);
+
+  // Extract unique subjects from the books array using useMemo for performance optimization
+  const uniqueSubjects = useMemo(() => {
+    return books?.results?.flatMap(book => book.subjects)
+      .filter((value, index, self) => self.indexOf(value) === index) || [];
+  }, [books]);
 
   if(isLoading) {
     return <Loading />
@@ -54,10 +65,11 @@ const Books = ({ filterWishlist = false }) => {
   return (
     <>
       { filterWishlist || <h2>Page No: {page}</h2> }
+
       { filterWishlist || <b>{displayedBooks?.length}</b> }
-      
+
       {/* Render SearchFilter component if not on Wishlist page */}
-      {/* {!filterWishlist && (
+      {filterWishlist || (
         <SearchFilter
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -65,9 +77,7 @@ const Books = ({ filterWishlist = false }) => {
           setSelectedSubject={setSelectedSubject}
           uniqueSubjects={uniqueSubjects}
         />
-      )} */}
-
-      { filterWishlist || <SearchFilter /> }
+      )}
       
       {/* Display Books */}
       <div className='all-books'>

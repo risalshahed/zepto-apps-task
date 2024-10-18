@@ -1,10 +1,4 @@
-import useFetchBooks from "../hooks/useFetchBooks";
-
-const SearchFilter = () => {
-  const { searchQuery, setSearchQuery, selectedSubject, setSelectedSubject, books } = useFetchBooks();
-
-  // Get unique subjects from the books
-  const uniqueSubjects = [...new Set(books?.results?.flatMap(book => book.subjects))];
+const SearchFilter = ({ searchQuery, setSearchQuery, selectedSubject, setSelectedSubject, uniqueSubjects }) => {
 
   return (
     <div className='search-filter'>
