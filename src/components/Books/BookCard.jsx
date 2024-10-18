@@ -1,7 +1,7 @@
 import HeartIcon from "./HeartIcon";
 
 const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
-  const { id, title, authors, formats, translators, download_count, subjects } = book;
+  const { id, title, authors, formats, translators, download_count } = book;
 
   return (
     <div>
@@ -38,11 +38,6 @@ const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
           </>
         )
       }
-      {/* {
-        subjects?.length > 0 && subjects.map((subject, index) =>
-          <p key={index}>{subject}</p>
-        )
-      } */}
     </div>
   );
 }

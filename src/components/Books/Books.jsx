@@ -17,6 +17,7 @@ const Books = ({ filterWishlist = false }) => {
     setSearchQuery,
     selectedSubject,
     setSelectedSubject,
+    removingBookId
   } = useFetchBooks(page);
 
   const [displayedBooks, setDisplayedBooks] = useState([]);
@@ -29,26 +30,17 @@ const Books = ({ filterWishlist = false }) => {
     books.next && setPage(prev => prev + 1)
   }
 
-  // Conditionally render books based on filterWishlist prop
-  /* const displayedBooks = filterWishlist ? wishlist : filteredBooks || books?.results;
-
-  console.log('displayedBooks', displayedBooks);
-
-  // console.log('In Books Component', displayedBooks);
-
-  const uniqueSubjects = books?.results?.flatMap(
-    book => book.subjects
-  )
-  .filter(
-    (value, index, self) => self.indexOf(value) === index
-  ) */
+  const handleLastPage = () => {
+    const lastPage = Math.ceil(books.count / books.results.length);
+    setPage(lastPage);
+  }
 
   // Update displayedBooks whenever filterWishlist, filteredBooks, or books change
   useEffect(() => {
     if (filterWishlist) {
       setDisplayedBooks(wishlist);
     } else {
-      setDisplayedBooks(filteredBooks?.length > 0 ? filteredBooks :  []);
+      setDisplayedBooks(filteredBooks?.length > 0 ? filteredBooks : []);
     }
   }, [filterWishlist, filteredBooks, books, wishlist]);
 
@@ -80,38 +72,35 @@ const Books = ({ filterWishlist = false }) => {
       )}
       
       {/* Display Books */}
-      <div className='all-books'>
-        {
-          displayedBooks?.map(book =>
-            <BookCard
-              key={book.id}
-              book={book}
-              toggleWishlist={toggleWishlist}
-              isBookWishlisted={isBookWishlisted}
-            />
-          )
-        }
-      </div>
+        <div className='all-books'>
+          {
+            displayedBooks?.map(book =>
+              <div className={`${filterWishlist && `wishlist-item ${removingBookId === book.id && 'removing'}`}`} key={book.id}>
+                <BookCard
+                  book={book}
+                  toggleWishlist={toggleWishlist}
+                  isBookWishlisted={isBookWishlisted}
+                  filterWishlist={filterWishlist}
+                />
+              </div>
+            )
+          }
+        </div>
 
       {
         filterWishlist || (
           <>
             <div id='btn-parent'>
+              <button onClick={() => setPage(1)}>
+                First Page
+              </button>
               <button onClick={handlePrevious} disabled={page === 1}>
                 Previous
               </button>
               <button onClick={handleNext}>
                 Next
               </button>
-            </div>
-
-            <div id='btn-parent'>
-              <button onClick={() => setPage(1)}>
-                First Page
-              </button>
-              <button onClick={() => setPage(
-                Math.ceil(books.count / books.results.length)
-              )}>
+              <button onClick={handleLastPage}>
                 Last Page
               </button>
             </div>

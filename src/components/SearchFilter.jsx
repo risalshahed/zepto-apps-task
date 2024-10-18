@@ -1,4 +1,4 @@
-const SearchFilter = ({ searchQuery, setSearchQuery, selectedSubject, setSelectedSubject, uniqueSubjects }) => {
+const SearchFilter = ({ searchQuery, setSearchQuery, selectedSubject, uniqueSubjects, setSelectedSubject }) => {
 
   return (
     <div className='search-filter'>

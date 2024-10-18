@@ -5,6 +5,7 @@ const useFetchBooks = (page = 1) => {
   const [books, setBooks] = useContext(BooksContext);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [removingBookId, setRemovingBookId] = useState(null);
   
   // Define getInitialWishlist before calling it in useState
   const getInitialWishlist = () => {
@@ -57,13 +58,23 @@ const useFetchBooks = (page = 1) => {
 
     fetchBooks(page);
 
-    // pre-fetch the next and previous pages and store them in localStorage
-    // if (!localStorage.getItem(`books-page-${page + 1}`)) {
-    //   fetchBooks(page + 1); // Pre-fetch next page
-    // }
-    // if (page > 1 && !localStorage.getItem(`books-page-${page - 1}`)) {
-    //   fetchBooks(page - 1); // Pre-fetch previous page
-    // }
+    // Update filtered books based on searchQuery and selectedSubject
+    localStorage.setItem('searchQuery', searchQuery);
+    localStorage.setItem('selectedSubject', selectedSubject);
+
+    // Step 1: Filter books based on searchQuery (title only)
+    const initialFiltered = books?.results?.filter(book => {
+      return book.title.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
+    // Step 2: Filter the initial results based on selectedSubject
+    const filtered = initialFiltered?.filter(book => {
+      return selectedSubject 
+        ? book.subjects.some(subject => subject.toLowerCase().includes(selectedSubject.toLowerCase()))
+        : true; // If no subject is selected, return all initial filtered books
+    });
+
+    setFilteredBooks(filtered);
 
   }, [page, setBooks]);
 
@@ -88,53 +99,27 @@ const useFetchBooks = (page = 1) => {
 
   }, [searchQuery, selectedSubject, books]);
 
+  const toggleWishlist = book => {
+    const isWishlisted = wishlist.some(wishlistedBook => wishlistedBook.id === book.id);
+    if(isWishlisted) {
+      setRemovingBookId(book.id);
+
+      setTimeout(() => {
+        const updatedWishlist = wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id);
+        setWishlist(updatedWishlist);
+      }, 1500);
+    } else {
+      const updatedWishlist = [...wishlist, book];
+      setWishlist(updatedWishlist);
+    }
+  }
+
   // Save wishlist to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // Toggle Wishlist
-  // const toggleWishlist = book => {
-  //   if (wishlist.some(wishlistedBook => wishlistedBook.id === book.id)) {
-  //     setWishlist(wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id));
-  //   } else {
-  //     setWishlist([...wishlist, book]);
-  //   }
-  // };
-
-  const toggleWishlist = book => {
-    const isWishlisted = wishlist.some(wishlistedBook => wishlistedBook.id === book.id);
-    const updatedWishlist = isWishlisted 
-      ? wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id) 
-      : [...wishlist, book];
-    
-    setWishlist(updatedWishlist);
-  };
-
   const isBookWishlisted = bookId => wishlist.some(book => book.id === bookId);
-
-  // Persist search query and subject selection in localStorage
-  /* useEffect(() => {
-    localStorage.setItem('searchQuery', searchQuery);
-    localStorage.setItem('selectedSubject', selectedSubject);
-    const newFilteredBooks = books?.results?.filter(book => {
-      const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesSubject = selectedSubject ? book.subjects.includes(selectedSubject) : true;
-      return matchesSearch && matchesSubject;
-    });
-
-    setFilteredBooks(newFilteredBooks);
-
-    console.log('filtered', filteredBooks);
-    
-  }, [searchQuery, selectedSubject]); */
-
-  // Filter books based on search query and subject selection
-  // let filteredBooks;
-  // useEffect(() => {
-    
-  //   console.log('filtered called');
-  // }, [searchQuery]);
 
   return {
     books,
@@ -146,7 +131,8 @@ const useFetchBooks = (page = 1) => {
     selectedSubject,
     setSelectedSubject,
     toggleWishlist,
-    isBookWishlisted
+    isBookWishlisted,
+    removingBookId
   };
 };
 

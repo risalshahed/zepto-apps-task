@@ -127,3 +127,28 @@ main {
 .select-dropdown option {
   padding: 10px;
 }
+
+.wishlist-item {
+  transition: all 3s ease-in;
+  opacity: 1;
+}
+
+@keyframes fadeaway {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+.wishlist-item.removing {
+  animation-name: fadeaway;
+  animation-duration: 3s;
+}
