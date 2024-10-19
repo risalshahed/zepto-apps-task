@@ -130,7 +130,7 @@ const Books = ({ filterWishlist = false }) => {
                   <button onClick={handlePrevious} disabled={page === 1}>
                     Previous
                   </button>
-                  <button onClick={handleNext}>
+                  <button onClick={handleNext} disabled={!books.next}>
                     Next
                   </button>
                 </div>

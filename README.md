@@ -1,15 +1,15 @@
 # Zepto Apps Task
 
-## [Live Application]()
+## [Live Application](https://zepto-apps-task.vercel.app)
 
 - Clone the Github repository
 ```
-
+https://github.com/risalshahed/zepto-apps-task.git
 ```
 
 - Go inside the project directory
 ```
-cd 
+cd zepto-apps-task
 ```
 
 - Install the dependencies
