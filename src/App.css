@@ -45,6 +45,12 @@ nav {
 nav img {
   width: 150px;
 }
+nav .hamburger {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #fff;
+}
 nav ul {
   padding: 0 6%;
   display: flex;
@@ -52,7 +58,7 @@ nav ul {
 }
 nav li {
   list-style-type: none;
-  color: #eee;
+  color: #fff;
   font-size: 18px;
   padding: 12px 18px;
   border-radius: 12px;
@@ -67,7 +73,7 @@ nav a {
 /* Main Sections' styles */
 main {
   max-width: 1200px;
-  margin: 96px auto;
+  margin: 96px 32px;
 }
 /* Loading Skeleton's style */
 #parent-skeletons {
@@ -97,25 +103,6 @@ main {
 .loading-skeleton.circle {
   border-radius: 50%;
 }
-/* Pagination's Button's styles */
-#btn-parent-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#btn-parent-pagination button {
-  background-color: var(--button-bg);
-}
-#btn-parent-pagination button:hover {
-  background-color: darkblue;
-}
-#btn-parent-pagination h4 {
-  color: var(--button-bg);
-}
-#btn-pagination {
-  display: flex;
-  justify-content: center;
-}
 /* Books View */
 @keyframes books-in-view {
   0% {
@@ -142,6 +129,7 @@ main {
 /* Books Grid */
 .all-books {
   display: grid;
+  justify-content: center;
   margin: 32px 0;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px 3%;
@@ -173,6 +161,25 @@ main {
 .book-cover img {
   width: 100%;
   height: 100%;
+}
+/* Pagination's Button's styles */
+#btn-parent-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#btn-parent-pagination button {
+  background-color: var(--button-bg);
+}
+#btn-parent-pagination button:hover {
+  background-color: darkblue;
+}
+#btn-parent-pagination h4 {
+  color: var(--button-bg);
+}
+#btn-pagination {
+  display: flex;
+  justify-content: center;
 }
 /* Single Book's Styles */
 .each-book {
@@ -294,4 +301,57 @@ footer {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+/* ---------------------- Responsive Styles ---------------------- */
+@media(max-width: 1024px) {
+  .all-books {
+    display: grid;
+    margin: 32px 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 3%;
+  }
+}
+
+/* Tablets & Phones */
+@media (max-width: 768px) {
+  /* Navbar */
+  nav ul {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary);
+    flex-direction: column;
+    display: none;
+    padding: 12px 0;
+  }
+  nav ul.open {
+    display: flex;
+    opacity: 0.9;
+  }
+  nav .hamburger {
+    display: block;
+  }
+  nav li {
+    width: 100%;
+    text-align: center;
+  }
+  /* Book Grids */
+  .all-books {
+    display: grid;
+    margin: 32px 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 3%;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Book Grids */
+  .all-books {
+    display: grid;
+    margin: 32px 0;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 32px 3%;
+  }
 }

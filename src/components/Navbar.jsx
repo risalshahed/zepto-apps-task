@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
 import logo from '../assets/logo.avif'
+import { useState } from "react";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
   return (
     <nav>
       <img src={logo} alt='Logo' />
-      <ul>
+      <div className="hamburger" onClick={toggleMenu}>
+        ☰
+      </div>
+      <ul className={`${isMenuOpen && 'open'}`}>
         <Link to='/'>
           <li>
             Home
