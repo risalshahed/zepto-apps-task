@@ -8,7 +8,6 @@ const Wishlist = () => {
 
   return (
     <>
-      <h2>My Wishlist</h2>
       {wishlist.length > 0 ? (
         <Books filterWishlist={true} />
       ) : (

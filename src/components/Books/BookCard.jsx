@@ -4,8 +4,8 @@ const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
   const { id, title, authors, formats, translators, download_count } = book;
 
   return (
-    <div>
-      <div>
+    <>
+      <div className='book-cover'>
         <img src={formats['image/jpeg']} alt={title} />
       </div>
       <HeartIcon
@@ -38,7 +38,10 @@ const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
           </>
         )
       }
-    </div>
+      <button>
+        See Book
+      </button>
+    </>
   );
 }
 

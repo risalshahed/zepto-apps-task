@@ -107,7 +107,7 @@ const useFetchBooks = (page = 1) => {
       setTimeout(() => {
         const updatedWishlist = wishlist.filter(wishlistedBook => wishlistedBook.id !== book.id);
         setWishlist(updatedWishlist);
-      }, 1500);
+      }, 500);
     } else {
       const updatedWishlist = [...wishlist, book];
       setWishlist(updatedWishlist);

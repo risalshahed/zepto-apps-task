@@ -55,7 +55,7 @@ const Books = ({ filterWishlist = false }) => {
   }
   
   return (
-    <>
+    <div className='books-view'>
       { filterWishlist || <h2>Page No: {page}</h2> }
 
       { filterWishlist || <b>{displayedBooks?.length}</b> }
@@ -71,6 +71,9 @@ const Books = ({ filterWishlist = false }) => {
         />
       )}
       
+      <h1>
+        Collection of {filterWishlist && 'Wishlisted'} Books
+      </h1>
       {/* Display Books */}
         <div className='all-books'>
           {
@@ -109,7 +112,7 @@ const Books = ({ filterWishlist = false }) => {
         )
       }
 
-    </>
+    </div>
   );
 }
 
