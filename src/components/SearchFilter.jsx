@@ -11,7 +11,7 @@ const SearchFilter = ({ searchQuery, setSearchQuery, selectedSubject, uniqueSubj
       />
       {/* Genere Categories */}
       <select
-        className="select-dropdown"
+        className='select-dropdown'
         value={selectedSubject}
         onChange={e => setSelectedSubject(e.target.value)}
       >

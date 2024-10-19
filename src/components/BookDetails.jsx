@@ -33,7 +33,7 @@ const BookDetails = () => {
           }
           <p><strong>{book.download_count}</strong> times downloaded</p>
           <div id='each-book-subjects'>
-            <h3>Subjects</h3>
+            <h3>Genre</h3>
             <table >
             {
               book.subjects?.length > 0 && book.subjects.map((subject, index) =>

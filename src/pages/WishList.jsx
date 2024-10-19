@@ -1,10 +1,8 @@
 import Books from "../components/Books/Books";
-import useFetchBooks from '../hooks/useFetchBooks'; // Import the custom hook
+import useFetchBooks from '../hooks/useFetchBooks';
 
 const Wishlist = () => {
-  const { wishlist } = useFetchBooks(); // Get the wishlist from the hook
-
-  // console.log('In wishlist page', wishlist);
+  const { wishlist } = useFetchBooks();
 
   return (
     <>

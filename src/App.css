@@ -4,6 +4,9 @@
   margin: 0;
   box-sizing: border-box;
 }
+/* html, body {
+  max-width: 100%;
+} */
 /* variables */
 :root {
   --primary: #222;
@@ -12,7 +15,7 @@
 /* Button Styles */
 button {
   cursor: pointer;
-  margin: 24px 32px;
+  margin: 24px 0;
   padding: 12px 24px;
   background-color: var(--primary);
   color: white;
@@ -73,7 +76,48 @@ nav a {
 /* Main Sections' styles */
 main {
   max-width: 1200px;
-  margin: 96px 32px;
+  margin: 96px auto;
+  padding: 0 32px;
+}
+/* Search & Filter styles */
+.search-filter {
+  margin: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 0 36px;
+}
+.search-input {
+  width: 30%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 5px 5px 12px #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+.search-input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+/* Category Styles */
+.select-dropdown {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 5px 5px 12px #ccc;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+.select-dropdown:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+.select-dropdown option {
+  padding: 10px;
 }
 /* Loading Skeleton's style */
 #parent-skeletons {
@@ -180,6 +224,7 @@ main {
 #btn-pagination {
   display: flex;
   justify-content: center;
+  gap: 0 48px;
 }
 /* Single Book's Styles */
 .each-book {
@@ -228,49 +273,6 @@ main {
   animation-duration: 0.8s;
   animation-fill-mode: forwards;
 }
-/* Search & Filter styles */
-.search-filter {
-  display: flex;
-  justify-content: space-between;
-  gap: 0 36px;
-}
-.search-input {
-  width: 30%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-/* Change border color on focus */
-.search-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-/* Styles for the select dropdown */
-.select-dropdown {
-  /* width: 100%; */
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: #fff;
-  transition: border-color 0.3s;
-  cursor: pointer;
-}
-/* Change border color on focus */
-.select-dropdown:focus {
-  border-color: #007bff;
-  outline: none;
-}
-/* Styles for the options inside the select dropdown */
-.select-dropdown option {
-  padding: 10px;
-}
 
 .wishlist-item {
   transition: all 1.5s ease;
@@ -311,6 +313,13 @@ footer {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px 3%;
   }
+  #btn-parent-pagination h4 {
+    display: none;
+  }
+  /* Category Dropdown */
+  .select-dropdown {
+    width: 50%;
+  }
 }
 
 /* Tablets & Phones */
@@ -324,7 +333,7 @@ footer {
     background-color: var(--primary);
     flex-direction: column;
     display: none;
-    padding: 12px 0;
+    padding: 0;
   }
   nav ul.open {
     display: flex;
@@ -336,6 +345,9 @@ footer {
   nav li {
     width: 100%;
     text-align: center;
+    border-bottom: 1px solid #fff;
+    border-radius: 0;
+    padding: 14px 0;
   }
   /* Book Grids */
   .all-books {
@@ -344,14 +356,38 @@ footer {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 3%;
   }
+  /* Pagination */
+  #btn-parent-pagination {
+    justify-content: center;
+  }
+  #btn-parent-pagination > button {
+    display: none;
+  }
+  /* Category Dropdown */
+  .search-filter {
+    flex-direction: column;
+    align-items: center;
+  }
+  .search-input {
+    width: 50%;
+  }
 }
 
 @media (max-width: 576px) {
+  nav {
+    padding: 12px 48px;
+  }
+  main {
+    padding: 0 24px;
+  }
   /* Book Grids */
   .all-books {
     display: grid;
     margin: 32px 0;
     grid-template-columns: repeat(1, 1fr);
     gap: 32px 3%;
+  }
+  .search-input, .select-dropdown {
+    width: 70%;
   }
 }
