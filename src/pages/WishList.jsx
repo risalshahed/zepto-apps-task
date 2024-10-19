@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import Books from "../components/Books/Books";
 import useFetchBooks from '../hooks/useFetchBooks';
 
 const Wishlist = () => {
+  useEffect(() => {
+    document.title = 'Zepto Apps Task | Wishlist';
+  }, [])
   const { wishlist } = useFetchBooks();
 
   return (

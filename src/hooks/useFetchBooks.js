@@ -18,6 +18,8 @@ const useFetchBooks = (page = 1) => {
   
   const [wishlist, setWishlist] = useState(getInitialWishlist);
 
+  // console.log('wish', wishlist.length);
+
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem('searchQuery') || ''
   );
@@ -31,7 +33,7 @@ const useFetchBooks = (page = 1) => {
     const fetchBooks = async (pageNum) => {
       setIsLoading(true);
 
-      // Check if the data for this page exists in local storage
+      // Check if data for this page exists in local storage
       const cachedData = localStorage.getItem(`books-page-${pageNum}`);
 
       if (cachedData) {
@@ -59,12 +61,12 @@ const useFetchBooks = (page = 1) => {
     localStorage.setItem('searchQuery', searchQuery);
     localStorage.setItem('selectedSubject', selectedSubject);
 
-    // Step 1: Filter books based on searchQuery (title only)
+    // filter books on searchQuery (title only)
     const initialFiltered = books?.results?.filter(book => {
       return book.title.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
-    // Step 2: Filter the initial results based on selectedSubject
+    // filter the initial results on selectedSubject
     const filtered = initialFiltered?.filter(book => {
       return selectedSubject 
         ? book.subjects.some(subject => subject.toLowerCase().includes(selectedSubject.toLowerCase()))
@@ -75,21 +77,21 @@ const useFetchBooks = (page = 1) => {
 
   }, [page, setBooks]);
 
-  // Update filtered books based on searchQuery and selectedSubject
+  // Update filtered books on searchQuery and selectedSubject
   useEffect(() => {
     localStorage.setItem('searchQuery', searchQuery);
     localStorage.setItem('selectedSubject', selectedSubject);
 
-    // Step 1: Filter books based on searchQuery (title only)
+    // filter books based on searchQuery (title only)
     const initialFiltered = books?.results?.filter(book => {
       return book.title.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
-    // Step 2: Filter the initial results based on selectedSubject
+    // filter the initial results based on selectedSubject
     const filtered = initialFiltered?.filter(book => {
       return selectedSubject 
         ? book.subjects.some(subject => subject.toLowerCase().includes(selectedSubject.toLowerCase()))
-        : true; // If no subject is selected, return all initial filtered books
+        : true;
     });
 
     setFilteredBooks(filtered);

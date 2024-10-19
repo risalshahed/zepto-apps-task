@@ -35,16 +35,16 @@ const Books = ({ filterWishlist = false }) => {
     setPage(lastPage);
   }
 
-  // Update displayedBooks whenever filterWishlist, filteredBooks, or books change
+  // Update displayedBooks if filterWishlist, filteredBooks, or books change
   useEffect(() => {
-    if (filterWishlist) {
+    if(filterWishlist) {
       setDisplayedBooks(wishlist);
     } else {
       setDisplayedBooks(filteredBooks?.length > 0 ? filteredBooks : []);
     }
   }, [filterWishlist, filteredBooks, books, wishlist]);
 
-  // Extract unique subjects from the books array using useMemo for performance optimization
+  // Extract unique subjects from "books" array
   const uniqueSubjects = useMemo(() => {
     return books?.results?.flatMap(book => book.subjects)
       .filter((value, index, self) => self.indexOf(value) === index) || [];
@@ -85,8 +85,15 @@ const Books = ({ filterWishlist = false }) => {
       
       <div className='books-view'>
         <h1>
-          Collection of {filterWishlist && 'Wishlisted'} Books
+          Collection of {filterWishlist && 'Your Favorite'} Books
         </h1>
+        {
+          filterWishlist && (
+            <p id='count-wish'>
+              You&apos;ve liked <strong>{wishlist.length}</strong> books
+            </p>
+          )
+        }
         {/* Display Books */}
           <div className='all-books'>
             {
