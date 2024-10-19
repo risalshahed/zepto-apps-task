@@ -13,7 +13,7 @@ const Wishlist = () => {
       {wishlist.length > 0 ? (
         <Books filterWishlist={true} />
       ) : (
-        <p>No books in your wishlist yet.</p>
+        <p className='count-wish'>No books in your wishlist yet.</p>
       )}
     </>
   );

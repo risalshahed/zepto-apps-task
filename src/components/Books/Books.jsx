@@ -89,7 +89,7 @@ const Books = ({ filterWishlist = false }) => {
         </h1>
         {
           filterWishlist && (
-            <p id='count-wish'>
+            <p className='count-wish'>
               You&apos;ve liked <strong>{wishlist.length}</strong> books
             </p>
           )
