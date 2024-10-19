@@ -10,8 +10,8 @@ const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
         <img src={formats['image/jpeg']} alt={title} />
       </div>
       <HeartIcon
-        isWishlisted={isBookWishlisted(id)}  // Check if book is in wishlist
-        onClick={() => toggleWishlist(book)} // Toggle wishlist on click
+        isWishlisted={isBookWishlisted(id)}
+        onClick={() => toggleWishlist(book)}
       />
       <h2>
         {title}

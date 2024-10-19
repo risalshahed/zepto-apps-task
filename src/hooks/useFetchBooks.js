@@ -18,8 +18,6 @@ const useFetchBooks = (page = 1) => {
   
   const [wishlist, setWishlist] = useState(getInitialWishlist);
 
-  // console.log('wish', wishlist.length);
-
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem('searchQuery') || ''
   );
@@ -42,9 +40,7 @@ const useFetchBooks = (page = 1) => {
       } else {
         try {
           const response = await fetch(`https://gutendex.com/books?page=${pageNum}`);
-          const data = await response.json();
-          
-          // Save data
+          const data = await response.json();          
           setBooks(data);
           localStorage.setItem(`books-page-${pageNum}`, JSON.stringify(data));
         } catch (error) {
