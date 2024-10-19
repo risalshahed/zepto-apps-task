@@ -1,5 +1,3 @@
-import Navbar from "../Navbar";
-import SearchFilter from "../SearchFilter";
 import Skeleton from "./Skeleton";
 
 const skeletons = (
@@ -12,9 +10,7 @@ const skeletons = (
 
 const Loading = () => {
   return (
-    <div>
-      <Navbar />
-      <SearchFilter />
+    <>
       <div id='parent-skeletons'>
         { skeletons }
         { skeletons }
@@ -25,7 +21,7 @@ const Loading = () => {
         { skeletons }
         { skeletons }
       </div>
-    </div>
+    </>
   )
 }
 
