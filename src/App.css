@@ -4,12 +4,17 @@
   margin: 0;
   box-sizing: border-box;
 }
+/* variables */
+:root {
+  --primary: #222;
+  --button-bg: #00f;
+}
 /* Button Styles */
 button {
   cursor: pointer;
   margin: 24px 32px;
   padding: 12px 24px;
-  background-color: blue;
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: 12px;
@@ -19,7 +24,7 @@ button:disabled {
   cursor: not-allowed;
 }
 button:hover {
-  background-color: darkblue;
+  background-color: #000;
 }
 h1 {
   text-align: center;
@@ -27,24 +32,34 @@ h1 {
 }
 /* Navbar Styles */
 nav {
-  background-color: #222;
-  padding: 24px;
+  background-color: var(--primary);
+  padding: 12px 64px;
   position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   top: 0;
   width: 100%;
   z-index: 2;
-  /* opacity: 0.9; */
+}
+nav img {
+  width: 150px;
 }
 nav ul {
   padding: 0 6%;
   display: flex;
-  justify-content: end;
-  gap: 0 18px;
+  gap: 0 36px;
 }
 nav li {
   list-style-type: none;
   color: #eee;
   font-size: 18px;
+  padding: 12px 18px;
+  border-radius: 12px;
+}
+nav li:hover {
+  background-color: #333;
+  color: cyan;
 }
 nav a {
   text-decoration: none;
@@ -52,15 +67,79 @@ nav a {
 /* Main Sections' styles */
 main {
   max-width: 1200px;
-  margin: auto;
-  margin-top: 80px;
+  margin: 96px auto;
 }
-
-#btn-parent {
+/* Loading Skeleton's style */
+#parent-skeletons {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px 3%;
+}
+.loading-skeleton {
+  margin-bottom: 18px;
+  border-radius: 8px;
+  line-height: 100%;
+  width: 100%;
+  background-color: #fff;
+  background: linear-gradient(100deg, rgba(232,232,232,1) 20%, rgba(250,250,250,1) 50%, rgba(232,232,232,1) 60%);
+  background-size: 1000px 1000px;
+  animation: skeleton 1.5s linear infinite forwards;
+}
+@keyframes skeleton {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+.loading-skeleton.circle {
+  border-radius: 50%;
+}
+/* Pagination's Button's styles */
+#btn-parent-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#btn-parent-pagination button {
+  background-color: var(--button-bg);
+}
+#btn-parent-pagination button:hover {
+  background-color: darkblue;
+}
+#btn-parent-pagination h4 {
+  color: var(--button-bg);
+}
+#btn-pagination {
   display: flex;
   justify-content: center;
 }
-
+/* Books View */
+@keyframes books-in-view {
+  0% {
+    opacity: 0;
+    transform: translateY(80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.books-view {
+  animation-name: books-in-view;
+  animation-duration: 1.2s;
+  animation-timing-function: ease;
+}
+.books-view h3, p {
+  padding: 8px 0 0;
+}
+#page-number {
+  text-align: center;
+  padding: 12px 0;
+}
+/* Books Grid */
 .all-books {
   display: grid;
   margin: 32px 0;
@@ -86,6 +165,7 @@ main {
 .all-books > div:hover {
   background-color: #eee;
 }
+/* Book Cover */
 .book-cover {
   height: 150px;
   position: relative;
@@ -93,6 +173,38 @@ main {
 .book-cover img {
   width: 100%;
   height: 100%;
+}
+/* Single Book's Styles */
+.each-book {
+  max-width: 768px;
+  margin: auto;
+  box-shadow: 8px 12px 24px #ccc;
+  padding: 16px 5%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.each-book img {
+  margin-bottom: 32px;
+}
+.each-book h3, p {
+  padding: 8px 0;
+}
+#each-book-subjects {
+  margin: 12px auto;
+}
+#each-book-subjects table, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 8px;
+}
+#each-book-subjects tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+#each-book-author {
+  font-weight: bold;
+  font-size: 20px;
 }
 @keyframes anim-cover {
   0% {
@@ -112,11 +224,11 @@ main {
 /* Search & Filter styles */
 .search-filter {
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: space-between;
   gap: 0 36px;
 }
 .search-input {
-  width: 100%;
+  width: 30%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -133,7 +245,7 @@ main {
 
 /* Styles for the select dropdown */
 .select-dropdown {
-  width: 100%;
+  /* width: 100%; */
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -172,4 +284,14 @@ main {
 .wishlist-item.removing {
   animation-name: fadeaway;
   animation-duration: 0.5s;
+}
+/* Footer's Styles */
+footer {
+  background-color: var(--primary);
+  color: #fff;
+  padding: 32px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

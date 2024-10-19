@@ -7,7 +7,6 @@ const useFetchBooks = (page = 1) => {
   const [isLoading, setIsLoading] = useState(true);
   const [removingBookId, setRemovingBookId] = useState(null);
   
-  // Define getInitialWishlist before calling it in useState
   const getInitialWishlist = () => {
     try {
       return JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -17,14 +16,13 @@ const useFetchBooks = (page = 1) => {
     }
   };
   
-  // Initialize wishlist using the getInitialWishlist function
   const [wishlist, setWishlist] = useState(getInitialWishlist);
 
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem('searchQuery') || ''
   );
   
-  // State for filtered books
+  // filtered books' state
   const [selectedSubject, setSelectedSubject] = useState(
     localStorage.getItem('selectedSubject') || ''
   );
@@ -33,11 +31,10 @@ const useFetchBooks = (page = 1) => {
     const fetchBooks = async (pageNum) => {
       setIsLoading(true);
 
-      // Check if the data for this page exists in localStorage
+      // Check if the data for this page exists in local storage
       const cachedData = localStorage.getItem(`books-page-${pageNum}`);
 
       if (cachedData) {
-        // Use data from localStorage
         setBooks(JSON.parse(cachedData));
         setIsLoading(false);
       } else {
@@ -45,7 +42,7 @@ const useFetchBooks = (page = 1) => {
           const response = await fetch(`https://gutendex.com/books?page=${pageNum}`);
           const data = await response.json();
           
-          // Save data to state and localStorage
+          // Save data
           setBooks(data);
           localStorage.setItem(`books-page-${pageNum}`, JSON.stringify(data));
         } catch (error) {
@@ -58,7 +55,7 @@ const useFetchBooks = (page = 1) => {
 
     fetchBooks(page);
 
-    // Update filtered books based on searchQuery and selectedSubject
+    // Update filtered books
     localStorage.setItem('searchQuery', searchQuery);
     localStorage.setItem('selectedSubject', selectedSubject);
 

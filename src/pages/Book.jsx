@@ -1,8 +1,8 @@
+import BookDetails from "../components/BookDetails";
+
 const Book = () => {
   return (
-    <div>
-      Each Book Page
-    </div>
+    <BookDetails />
   );
 }
 

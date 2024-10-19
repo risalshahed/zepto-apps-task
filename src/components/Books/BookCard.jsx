@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 import HeartIcon from "./HeartIcon";
 
 const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
-  const { id, title, authors, formats, translators, download_count } = book;
+  const { id, title, authors, formats, download_count } = book;
 
   return (
     <>
@@ -16,31 +17,21 @@ const BookCard = ({ book, toggleWishlist, isBookWishlisted }) => {
         {title}
       </h2>
       <p><strong>{download_count}</strong> times downloaded</p>
-      <h4>
+      <div>
         Written by:
-      </h4>
-      {
-        authors?.length > 0 && authors.map((author, index) =>
-          <p key={index}>{author.name}</p>
-        )
-      }
-      {
-        translators?.length > 0 && (
-          <>
-            <h4>
-              Translated by:
-            </h4>
-            {
-              translators.map((translator, index) =>
-                <p key={index}>{translator.name}</p>
-              )
-            }
-          </>
-        )
-      }
-      <button>
-        See Book
-      </button>
+        {
+          authors?.length > 0 && authors.map((author, index) =>
+            <h3 key={index}>
+              {author.name}
+            </h3>
+          )
+        }
+      </div>
+      <Link to={`/books/${id}`}>
+        <button>
+          See Book
+        </button>
+      </Link>
     </>
   );
 }

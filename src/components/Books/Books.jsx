@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import useFetchBooks from '../../hooks/useFetchBooks';
-import Loading from '../Loading';
 import BookCard from './BookCard';
 import SearchFilter from '../SearchFilter';
+import Loading from '../Loading/Loading';
 
 const Books = ({ filterWishlist = false }) => {
   const [page, setPage] = useState(1);
@@ -53,13 +53,25 @@ const Books = ({ filterWishlist = false }) => {
   if(isLoading) {
     return <Loading />
   }
+
+  let whichPageNumber;
+  switch (page % 10) {
+    case 1:
+      whichPageNumber = <sup>st</sup>
+      break;
+    case 2:
+      whichPageNumber = <sup>nd</sup>
+      break;
+    case 3:
+      whichPageNumber = <sup>rd</sup>  
+      break;
+    default:
+      whichPageNumber = <sup>th</sup>
+      break;
+  }
   
   return (
-    <div className='books-view'>
-      { filterWishlist || <h2>Page No: {page}</h2> }
-
-      { filterWishlist || <b>{displayedBooks?.length}</b> }
-
+    <div>
       {/* Render SearchFilter component if not on Wishlist page */}
       {filterWishlist || (
         <SearchFilter
@@ -71,47 +83,70 @@ const Books = ({ filterWishlist = false }) => {
         />
       )}
       
-      <h1>
-        Collection of {filterWishlist && 'Wishlisted'} Books
-      </h1>
-      {/* Display Books */}
-        <div className='all-books'>
-          {
-            displayedBooks?.map(book =>
-              <div className={`${filterWishlist && `wishlist-item ${removingBookId === book.id && 'removing'}`}`} key={book.id}>
-                <BookCard
-                  book={book}
-                  toggleWishlist={toggleWishlist}
-                  isBookWishlisted={isBookWishlisted}
-                  filterWishlist={filterWishlist}
-                />
+      <div className='books-view'>
+        <h1>
+          Collection of {filterWishlist && 'Wishlisted'} Books
+        </h1>
+        {/* Display Books */}
+          <div className='all-books'>
+            {
+              displayedBooks?.map(book =>
+                <div className={`${filterWishlist && `wishlist-item ${removingBookId === book.id && 'removing'}`}`} key={book.id}>
+                  <BookCard
+                    book={book}
+                    toggleWishlist={toggleWishlist}
+                    isBookWishlisted={isBookWishlisted}
+                    filterWishlist={filterWishlist}
+                  />
+                </div>
+              )
+            }
+          </div>
+
+        {
+          filterWishlist || (
+            <>
+              <div id='btn-parent-pagination'>
+                <button onClick={() => setPage(1)}>
+                  First Page
+                </button>
+                <h4>
+                  &lt; &lt; &lt;
+                </h4>
+                <h4>
+                  &lt; &lt; &lt;
+                </h4>
+                <h4>
+                  &lt; &lt; &lt;
+                </h4>
+                <div id='btn-pagination'>
+                  <button onClick={handlePrevious} disabled={page === 1}>
+                    Previous
+                  </button>
+                  <button onClick={handleNext}>
+                    Next
+                  </button>
+                </div>
+                <h4>
+                  &gt; &gt; &gt;
+                </h4>
+                <h4>
+                  &gt; &gt; &gt;
+                </h4>
+                <h4>
+                  &gt; &gt; &gt;
+                </h4>
+                <button onClick={handleLastPage}>
+                  Last Page
+                </button>
               </div>
-            )
-          }
-        </div>
-
-      {
-        filterWishlist || (
-          <>
-            <div id='btn-parent'>
-              <button onClick={() => setPage(1)}>
-                First Page
-              </button>
-              <button onClick={handlePrevious} disabled={page === 1}>
-                Previous
-              </button>
-              <button onClick={handleNext}>
-                Next
-              </button>
-              <button onClick={handleLastPage}>
-                Last Page
-              </button>
-            </div>
-            <h2>Page No: {page}</h2>
-          </>
-        )
-      }
-
+              <h3 id='page-number'>
+                {page}{whichPageNumber} page
+              </h3>
+            </>
+          )
+        }
+      </div>
     </div>
   );
 }

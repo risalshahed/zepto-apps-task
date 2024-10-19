@@ -2,7 +2,6 @@ const SearchFilter = ({ searchQuery, setSearchQuery, selectedSubject, uniqueSubj
 
   return (
     <div className='search-filter'>
-      {/* Search bar for filtering by title */}
       <input
         type="text"
         className="search-input"
@@ -10,15 +9,13 @@ const SearchFilter = ({ searchQuery, setSearchQuery, selectedSubject, uniqueSubj
         value={searchQuery}
         onChange={e => setSearchQuery(e.target.value)}
       />
-
-      {/* Dropdown for filtering by subjects */}
+      {/* Genere Categories */}
       <select
         className="select-dropdown"
         value={selectedSubject}
         onChange={e => setSelectedSubject(e.target.value)}
       >
         <option value="">All Subjects</option>
-        {/* Dynamically render subject options */}
         {
           uniqueSubjects?.map((subject, index) => (
             <option key={index} value={subject}>
